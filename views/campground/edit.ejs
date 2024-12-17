@@ -1,0 +1,43 @@
+<% layout('layouts/boilerplate')  %>
+
+<div class="row my-5">
+        <div class="col-6 offset-3">
+                <h1 class="text-center mt-3">create new camp</h1>
+                <form action="/campground/<%= camp.id %>?_method=PUT" method="post" class="validated-form" novalidate>
+                        <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" aria-describedby="title" name="campground[title]"  value="<%= camp.title %>" required>
+                                <div id="titleHelp" class="form-text">create your camp title</div>
+                        </div>
+
+                        <div class="mb-3">
+                                <label for="price" class="form-label">Price</label>
+                                <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input id="price" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="campground[price]"  value="<%= camp.price %>" required>
+                                        <span class="input-group-text">.00</span>
+                                </div>
+                        </div>
+                        <div class="mb-3">
+                                <label for="img" class="form-label">Img URL</label>
+                                <input type="text" class="form-control" id="img" name="campground[img]"  value="<%= camp.img %>" required>
+                        </div>
+                        <div class="mb-3">
+                                <label for="location" class="form-label">location</label>
+                                <input type="text" class="form-control" id="location" name="campground[location]"  value="<%= camp.location %>" required >
+                        </div>
+
+                        <div class="mb-3">
+                                <label for="description" class="form-label">description</label>
+                                <textarea type="number" class="form-control" id="description" name="campground[description]" required >  <%= camp.description %> </textarea>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success">update</button>
+                </form>
+                <div class="d-block">
+                        <a href="/campground" class="text-center btn btn-primary mt-3">view all camp</a>
+                </div>
+        </div>
+</div>
+    

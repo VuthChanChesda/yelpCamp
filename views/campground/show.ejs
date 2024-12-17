@@ -1,0 +1,26 @@
+    <% layout('layouts/boilerplate')  %>
+
+
+    <div class="card mt-5">
+        <div class="row my-4">
+            <div class="col-md-4">
+                <img src="<%= camp.img %>" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-8">
+                <h1 class="card-title"><%= camp.title %></h1>
+                <p class="card-text text-muted"><small><%= camp.description%></small></p>
+                <p class="card-text text-muted"><small><%= camp.location%></small></p>
+
+                <p class="card-text text-muted"><small><a href="/campground/<%= camp.id %>/edit" class="btn btn-primary">edit camp</a></small></p>
+
+                <form action="/campground/<%= camp.id %>?_method=DELETE" method="post">
+                    <button class="btn btn-primary">DELETE</button>
+                </form>
+
+                <p class="card-text text-muted my-3"><small><a href="/campground" class="btn btn-success">all campground</a></small></p>
+
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/popUp')%>
