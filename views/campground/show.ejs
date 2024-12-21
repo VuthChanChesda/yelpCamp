@@ -1,25 +1,53 @@
     <% layout('layouts/boilerplate')  %>
 
+    <div class="row my-3">
+        <div class="col-md-6">
+            <div class="card">
+                <!-- Centered Image -->
+                <img src="<%= camp.img %>" class="card-img-top img-fluid mx-auto d-block" alt="Camp Image">
 
-    <div class="card mt-5">
-        <div class="row my-4">
-            <div class="col-md-4">
-                <img src="<%= camp.img %>" alt="" class="img-fluid">
+                <!-- Card Body -->
+                <div class="card-body">
+                    <h5 class="card-title"><%= camp.title %></h5>
+                    <p class="card-text"><%= camp.description %></p>
+                </div>
+
+                <!-- Full-Width List Items -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item w-100"><%= camp.location %></li>
+                    <li class="list-group-item w-100">Price: <%= camp.price %>$</li>
+                    <li class="list-group-item w-100 d-flex">
+                        <a href="/campground/<%= camp.id %>/edit" class="btn btn-primary">Edit Camp</a>
+                        <form action="/campground/<%= camp.id %>?_method=DELETE" method="post">
+                            <button class="btn btn-danger mx-3">DELETE</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-8">
-                <h1 class="card-title"><%= camp.title %></h1>
-                <p class="card-text text-muted"><small><%= camp.description%></small></p>
-                <p class="card-text text-muted"><small><%= camp.location%></small></p>
+        </div>
+        <div class="col-md-6">
+            <h3>leave a review</h3>
+            <form action="/campground/<%= camp.id %>/review" method="post" class="validated-form" novalidate>
+                <div class="my-3">
+                    <label for="Rating">Rating</label>
+                    <input type="range" id="Rating" name="reviews[rating]" class="form-range" min="0" max="5">
+                </div>
+                <div class="my-3">
+                    <label for="body">Rating</label>
+                    <textarea cols="30" rows="10" id="body" name="reviews[body]" class="form-control" required></textarea>
+                </div>
 
-                <p class="card-text text-muted"><small><a href="/campground/<%= camp.id %>/edit" class="btn btn-primary">edit camp</a></small></p>
+                <button class="btn btn-success mb-3">submit </button>
+            </form>
 
-                <form action="/campground/<%= camp.id %>?_method=DELETE" method="post">
-                    <button class="btn btn-primary">DELETE</button>
-                </form>
-
-                <p class="card-text text-muted my-3"><small><a href="/campground" class="btn btn-success">all campground</a></small></p>
-
-            </div>
+            <% for(let r of camp.reviews){%>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p class="card-title text-danger">Rating: <%= r.rating%></p>
+                        <p class="card-text"> <%= r.body%></p>
+                    </div>
+                </div>
+            <%}%>
         </div>
     </div>
 

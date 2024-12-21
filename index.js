@@ -3,7 +3,8 @@ const app = express();
 const path = require('path');
 const methodsOverride = require('method-override');
 const CampGround = require('./model/campGroundSchema');
-const {campgroundSchema} = require('./schemas');
+const {campgroundSchema , reviewSchema} = require('./schemas');
+const Reviews = require('./model/reviews');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const ejsMate = require('ejs-mate')
@@ -24,6 +25,17 @@ app.set('views' , path.join(__dirname , 'views'));
 
 const validateCampground = (req, res, next) => {
     const {error} = campgroundSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',')//get all the msg from error detail array in line
+        throw new ExpressError(msg, 400)
+    } // validate data before we even post to db
+    else {
+        next()
+    }
+}
+
+const validateReviews = (req, res, next) => {
+    const {error} = reviewSchema.validate(req.body);
     if(error){
         const msg = error.details.map(el => el.message).join(',')//get all the msg from error detail array in line
         throw new ExpressError(msg, 400)
@@ -63,6 +75,16 @@ app.delete('/campground/:id', catchAsync( async (req , res) => {
     res.redirect('/campground');
 }));// delete camp
 
+app.post('/campground/:id/review',validateReviews,catchAsync( async (req,res) => {
+    const campground = await CampGround.findById(req.params.id);
+    const review = new Reviews(req.body.reviews);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    console.log(campground);
+    res.redirect(`/campground/${campground._id}`);
+}))
+
 app.get('/campground/:id/edit',catchAsync( async (req , res) => {
 
     const {id} = req.params;
@@ -74,10 +96,9 @@ app.get('/campground/:id/edit',catchAsync( async (req , res) => {
 
 
 app.get('/campground/:id' , catchAsync ( async (req , res,next) => {
-
-        const {id} = req.params;
-        let camp = await CampGround.findById(id);
-        res.render('campground/show' , {camp});
+    const {id} = req.params;
+    let camp = await CampGround.findById(id).populate('reviews');
+    res.render('campground/show' , {camp});
 })); //page for details of the camp
 
 app.all('*' ,(req, res, next)=> {
