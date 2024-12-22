@@ -85,6 +85,14 @@ app.post('/campground/:id/review',validateReviews,catchAsync( async (req,res) =>
     res.redirect(`/campground/${campground._id}`);
 }))
 
+app.delete('/campground/:id/reviews/:reviewId' , catchAsync(async (req, res)=>{
+    const {id , reviewId} = req.params;
+    await CampGround.findByIdAndUpdate(id , {$pull: {reviews: reviewId}}); //pull a review array that has that id out of the array
+    await Reviews.findByIdAndDelete(reviewId);
+    res.redirect(`/campground/${id}`);
+
+}))
+
 app.get('/campground/:id/edit',catchAsync( async (req , res) => {
 
     const {id} = req.params;

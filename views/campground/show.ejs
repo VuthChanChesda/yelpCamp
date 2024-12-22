@@ -33,7 +33,7 @@
                     <input type="range" id="Rating" name="reviews[rating]" class="form-range" min="0" max="5">
                 </div>
                 <div class="my-3">
-                    <label for="body">Rating</label>
+                    <label for="body">Review</label>
                     <textarea cols="30" rows="10" id="body" name="reviews[body]" class="form-control" required></textarea>
                 </div>
 
@@ -41,13 +41,17 @@
             </form>
 
             <% for(let r of camp.reviews){%>
-                <div class="card mb-3">
+                <div class="card mb-3  shadow">
                     <div class="card-body">
                         <p class="card-title text-danger">Rating: <%= r.rating%></p>
                         <p class="card-text"> <%= r.body%></p>
                     </div>
+                    <form action="/campground/<%=camp.id%>/reviews/<%=r.id%>?_method=DELETE" method="post">
+                        <button class="btn btn-danger m-2">Delete</button>
+                    </form>
                 </div>
             <%}%>
+
         </div>
     </div>
 
