@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true}); //so have access to param in index
 const {reviewSchema} = require('../schemas');
 const Reviews = require('../model/reviews');
 const catchAsync = require('../utils/catchAsync');
@@ -17,17 +17,16 @@ const validateReviews = (req, res, next) => {
     }
 }
 
-router.post('/:id/review',validateReviews,catchAsync( async (req,res) => {
+router.post('/',validateReviews,catchAsync( async (req,res) => {
     const campground = await CampGround.findById(req.params.id);
     const review = new Reviews(req.body.reviews);
     campground.reviews.push(review);
     await review.save();
     await campground.save();
-    console.log(campground);
     res.redirect(`/campground/${campground._id}`);
 }))
 
-router.delete('/:id/reviews/:reviewId' , catchAsync(async (req, res)=>{
+router.delete('/:reviewId' , catchAsync(async (req, res)=>{
     const {id , reviewId} = req.params;
     await CampGround.findByIdAndUpdate(id , {$pull: {reviews: reviewId}}); //pull a review array that has that id out of the array
     await Reviews.findByIdAndDelete(reviewId);

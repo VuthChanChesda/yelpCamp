@@ -27,14 +27,14 @@
         </div>
         <div class="col-md-6">
             <h3>leave a review</h3>
-            <form action="/campground/<%= camp.id %>/review" method="post" class="validated-form" novalidate>
+            <form action="/campground/<%= camp.id %>/reviews" method="post" class="validated-form" novalidate>
                 <div class="my-3">
                     <label for="Rating">Rating</label>
                     <input type="range" id="Rating" name="reviews[rating]" class="form-range" min="0" max="5">
                 </div>
                 <div class="my-3">
                     <label for="body">Review</label>
-                    <textarea cols="30" rows="10" id="body" name="reviews[body]" class="form-control" required></textarea>
+                    <textarea cols="30" rows="5" id="body" name="reviews[body]" class="form-control" required></textarea>
                 </div>
 
                 <button class="btn btn-success mb-3">submit </button>

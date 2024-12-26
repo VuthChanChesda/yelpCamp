@@ -7,6 +7,7 @@ const ejsMate = require('ejs-mate')
 const mongoose = require('mongoose');
 const campground =  require('./routes/campgrounds');
 const reviews =  require('./routes/reviews');
+const sessions =  require('express-session');
 mongoose.connect('mongodb://127.0.0.1:27017/yelpCamp');
 
 const db = mongoose.connection;
@@ -17,14 +18,25 @@ db.once('open' , () => {
 });
 
 app.engine('ejs' , ejsMate);
-app.use(methodsOverride('_method'));
-app.use(express.urlencoded({extended:true}));
 app.set('view engine' , 'ejs');
 app.set('views' , path.join(__dirname , 'views'));
 
-
+app.use(methodsOverride('_method'));
+app.use(express.urlencoded({extended:true}));
+app.use(express.static(path.join(__dirname , 'public')));
+const sessionCofig = {
+    secret: "testSecret", // Secret to sign cookies (use env var in production)
+    resave: false, // Prevents saving unchanged sessions
+    saveUninitialized: true, // Saves new sessions even if not modified
+    cookie: {
+            httpOnly: true,
+            expires: Date.now() + 1000 * 60 * 60 * 24 * 7,//one week
+            maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(sessions(sessionCofig));
 app.use('/campground', campground); // prefix campground
-app.use('/campground', reviews); // prefix campground
+app.use('/campground/:id/reviews', reviews); // prefix campground
 
 
 app.all('*' ,(req, res, next)=> {
