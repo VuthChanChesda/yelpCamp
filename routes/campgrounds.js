@@ -5,6 +5,7 @@ const CampGround = require("../model/campGroundSchema");
 const {campgroundSchema} = require('../schemas');
 const router = express.Router();
 
+
 const validateCampground = (req, res, next) => {
     const {error} = campgroundSchema.validate(req.body);
     if(error){
@@ -31,31 +32,41 @@ router.get('/:id/edit',catchAsync( async (req , res) => {
 
     const {id} = req.params;
     const camp = await CampGround.findById(id);
-
+    if(!camp){
+        req.flash('error','No camp found.');
+        res.redirect('/campground'); //prevent render empty camp
+    }
     res.render('campground/edit', {camp});
 } ));
 
 router.get('/:id' , catchAsync ( async (req , res,next) => {
     const {id} = req.params;
     let camp = await CampGround.findById(id).populate('reviews');
+    if(!camp){
+        req.flash('error','No camp found.');
+        res.redirect('/campground'); //prevent render empty camp
+    }
     res.render('campground/show' , {camp});
 })); //page for details of the camp
 
 router.post('/' ,validateCampground, catchAsync( async (req , res) => {
     const camp = new CampGround(req.body.campground);
     await camp.save();
+    req.flash('success', 'successfully created!');
     res.redirect(`/campground/${camp.id}`)
 })); // make new camp
 
 router.put('/:id',validateCampground, catchAsync(async(req , res) => {
     let {id} = req.params;
     const camp = await CampGround.findByIdAndUpdate(id , {...req.body.campground} , {new: true} );
+    req.flash('success', 'successfully updated!');
     res.redirect(`/campground/${camp.id}`);
 })); //update camp
 
 router.delete('/:id', catchAsync( async (req , res) => {
     let {id} = req.params;
     const camp = await CampGround.findByIdAndDelete(id);
+    req.flash('success', 'successfully deleted!');
     res.redirect('/campground');
 }));// delete camp
 

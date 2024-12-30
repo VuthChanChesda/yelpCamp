@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const campground =  require('./routes/campgrounds');
 const reviews =  require('./routes/reviews');
 const sessions =  require('express-session');
+const flash = require('connect-flash');
 mongoose.connect('mongodb://127.0.0.1:27017/yelpCamp');
 
 const db = mongoose.connection;
@@ -35,6 +36,12 @@ const sessionCofig = {
     }
 }
 app.use(sessions(sessionCofig));
+app.use(flash());
+app.use((req,res,next) => {
+    res.locals.success = req.flash('success'); // Make 'success' flash message available in all templates
+    next();
+    res.locals.error = req.flash('error');
+});
 app.use('/campground', campground); // prefix campground
 app.use('/campground/:id/reviews', reviews); // prefix campground
 
