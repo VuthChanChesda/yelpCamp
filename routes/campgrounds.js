@@ -1,9 +1,11 @@
 const express = require('express');
-const catchAsync = require("../utils/catchAsync");
+const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const CampGround = require("../model/campGroundSchema");
 const {campgroundSchema} = require('../schemas');
 const router = express.Router();
+const mongoose = require('mongoose');
+const {isLogined} = require('../middleware');
 
 
 const validateCampground = (req, res, next) => {
@@ -24,11 +26,11 @@ router.get('/',catchAsync( async (req, res) => {
 })); //show all camp
 
 
-router.get('/new' , async (req , res) => {
+router.get('/new' , isLogined ,async (req , res) => {
     res.render('campground/newCamp');
 }); //page creates new camp
 
-router.get('/:id/edit',catchAsync( async (req , res) => {
+router.get('/:id/edit', isLogined ,catchAsync( async (req , res) => {
 
     const {id} = req.params;
     const camp = await CampGround.findById(id);
@@ -41,6 +43,11 @@ router.get('/:id/edit',catchAsync( async (req , res) => {
 
 router.get('/:id' , catchAsync ( async (req , res,next) => {
     const {id} = req.params;
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        req.flash('error', 'Invalid Campground ID.');
+        return res.redirect('/campground'); // Redirect to some safe page
+    }
     let camp = await CampGround.findById(id).populate('reviews');
     if(!camp){
         req.flash('error','No camp found.');
@@ -49,7 +56,7 @@ router.get('/:id' , catchAsync ( async (req , res,next) => {
     res.render('campground/show' , {camp});
 })); //page for details of the camp
 
-router.post('/' ,validateCampground, catchAsync( async (req , res) => {
+router.post('/' ,isLogined,validateCampground, catchAsync( async (req , res) => {
     const camp = new CampGround(req.body.campground);
     await camp.save();
     req.flash('success', 'successfully created!');

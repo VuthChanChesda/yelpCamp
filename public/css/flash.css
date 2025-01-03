@@ -1,0 +1,30 @@
+#success-alert, #error-alert {
+    position: fixed;
+    top: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050; /* Ensure they appear above other content */
+    width: 85%;
+    max-width: 500px; /* Adjust size as needed */
+    padding: 15px 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#success-alert {
+    background-color: #d4edda; /* Success background */
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+#error-alert {
+    background-color: #dc4c58; /* Error background */
+    border: 1px solid #f5c6cb;
+    color: #ece4e4;
+}
+
+/* Add transition for a smooth appearance/disappearance */
+#success-alert.fade,
+#error-alert.fade {
+    transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out;
+}
