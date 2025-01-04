@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate')  %>
+<link rel="stylesheet" href="/css/star.css">
 
 <div class="row my-3">
         <div class="col-md-6">
@@ -35,11 +36,22 @@
         <div>
             <h3>leave a review</h3>
             <form action="/campground/<%= camp.id %>/reviews" method="post" class="validated-form" novalidate>
-                <div class="my-3">
-                    <label for="Rating">Rating</label>
-                    <input type="range" id="Rating" name="reviews[rating]" class="form-range" min="0" max="5">
+                <div class="mb-3">
+                <fieldset class="starability-basic">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="reviews[rating]" value="1" checked aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="reviews[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="reviews[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="reviews[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="reviews[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="reviews[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
                 </div>
-                <div class="my-3">
+                <div class="mb-3">
                     <label for="body">Review</label>
                     <textarea cols="30" rows="5" id="body" name="reviews[body]" class="form-control" required></textarea>
                 </div>
@@ -53,8 +65,10 @@
             <% for(let r of camp.reviews){%>
                 <div class="card mb-3  shadow">
                     <div class="card-body">
-                        <p class="card-title text-danger">Rating: <%= r.rating%></p>
-                        <h6 class="card-subtitle mb-2 text-muted">By <%= r.author.username %></h6>
+                        <p class="card-title text-info"><%= r.author.username %></p>
+                        <p class="starability-result" data-rating="<%= r.rating  %>">
+                            Rated: <%= r.rating %> stars
+                        </p>
                         <p class="card-text"> <%= r.body%></p>
                     </div>
                     <% if(currentUser && r.author.equals(currentUser._id)){%>
