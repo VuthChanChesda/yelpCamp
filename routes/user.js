@@ -1,9 +1,9 @@
 const express = require('express');
-const CatchAsync = require('../utils/CatchAsync');
+const catchAsync = require('../utils/catchAsync');
 const router = express.Router();
 const User = require('../model/user');
 const passport = require('passport');
-const {storeReturnTo} = require('../middleware');
+const {storeReturnTo } = require('../middleware');
 
 
 router.get('/register',(req,res)=>{
@@ -14,7 +14,7 @@ router.get('/login',(req,res)=>{
 });
 
 //put a func into CatchAsync if something wrong it will catch it then call next to error handing middleware;
-router.post('/register',CatchAsync(async(req,res)=>{
+router.post('/register',catchAsync(async(req,res)=>{
     try{
         const {username,email, password} = req.body;
         const user = new User({username,email});
@@ -32,9 +32,11 @@ router.post('/register',CatchAsync(async(req,res)=>{
    
 }));
 
+
 router.post('/login', storeReturnTo , passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}) ,(req,res)=>{
     req.flash('success', 'Welcome back!');
-    const redirectUrl = res.locals.returnTo || '/campgrounds';
+    const redirectUrl = res.locals.returnTo || '/campground';
+    delete req.session.returnTo; // Clear the returnTo session variable after using it
     res.redirect(redirectUrl);
 })
 

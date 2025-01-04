@@ -53,7 +53,7 @@ passport.deserializeUser(User.deserializeUser()); //how to get user out of the s
 
 
 app.use((req,res,next) => {
-    console.log(req.user);
+    //if we have a user in current user(show logout in navbar)
     res.locals.currentUser = req.user; // Make 'currentUser' available in all templates
     res.locals.success = req.flash('success'); // Make 'success' flash message available in all templates
     res.locals.error = req.flash('error');
