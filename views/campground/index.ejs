@@ -6,7 +6,7 @@
     <div class="card">
         <div class="row">
             <div class="col-md-4">
-                <img src="<%= c.img %>" class="img-fluid" alt="">
+                <img src="<%= c.imgs[0].url %>" class="d-block w-100" alt="...">   
             </div>
             <div class="col-md-8">
                 <h1 class="card-title"><%= c.title %></h1>
@@ -15,7 +15,6 @@
             </div>
         </div>
     </div>
-
         <% } %>
 
     <a href="/campground/new">create new camp</a>

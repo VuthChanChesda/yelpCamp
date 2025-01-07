@@ -4,7 +4,7 @@
         <div class="col-6 offset-3">
 
                 <h1 class="text-center">edit your camp</h1>
-                <form action="/campground/<%= camp.id %>?_method=PUT" method="post" class="validated-form" novalidate>
+                <form action="/campground/<%= camp.id %>?_method=PUT" method="post" class="validated-form" novalidate enctype="multipart/form-data">
                         <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title" aria-describedby="title" name="campground[title]"  value="<%= camp.title %>" required>
@@ -19,10 +19,7 @@
                                         <span class="input-group-text">.00</span>
                                 </div>
                         </div>
-                        <div class="mb-3">
-                                <label for="img" class="form-label">Img URL</label>
-                                <input type="text" class="form-control" id="img" name="campground[img]"  value="<%= camp.img %>" required>
-                        </div>
+                        
                         <div class="mb-3">
                                 <label for="location" class="form-label">location</label>
                                 <input type="text" class="form-control" id="location" name="campground[location]"  value="<%= camp.location %>" required >
@@ -33,7 +30,27 @@
                                 <textarea type="number" class="form-control" id="description" name="campground[description]" required >  <%= camp.description %> </textarea>
                         </div>
 
+                        <div class="mb-3">
+                                <label for="imgs" class="form-label">Upload Images</label>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="imgs" name="imgs" accept="image/*" multiple>
+                                    <label class="input-group-text" for="imgs">Browse</label>
+                                </div>
+                        </div>     
+                        
+                        <div class="mb-3">
+                        <% camp.imgs.forEach(function (img, index) { %>
 
+                                <!-- got img.thumbnail from ImageSchema.virtual('thumbnail') -->
+                                <img src="<%= img.thumbnail%>" class="img-thumbnail" alt=""> 
+                                <div class="form-check-inline">
+                                        <input type="checkbox" id="image-<%=index%>" value="<%=img.filename%>" name="deleteImages[]">
+                                </div>
+                                <label for="image-<%=index%>">Delete?</label> 
+                                <!-- each checkbox will add the value of the image to the deleteImages array -->
+                        <%})%>
+                        </div>
+                            
                         <button type="submit" class="btn btn-success">update</button>
                 </form>
                 <div class="d-block">

@@ -26,9 +26,18 @@ const seedDB = async () => {
             ,
             title : `${sample(descriptors)} ${sample(places)}`
             ,
-            img:`https://picsum.photos/400?random=${Math.random()}`,
+            imgs: [
+                {
+                    url: 'https://res.cloudinary.com/dt6kuwk1c/image/upload/v1736127124/YelpCamp/vmckqa7lmvbuyeqctpbx.jpg',
+                    filename: 'YelpCamp/vmckqa7lmvbuyeqctpbx'
+                },
+                {
+                    url: 'https://res.cloudinary.com/dt6kuwk1c/image/upload/v1736127127/YelpCamp/ucowydheesxpsr7miabb.jpg',
+                    filename: 'YelpCamp/ucowydheesxpsr7miabb'
+                }
+            ],
             price: randomPrice,
-            description: 'not yest'
+            description: 'Camping is an outdoor activity where people stay in nature, enjoy activities like hiking or stargazing, and connect with the environment away from daily life.'
         });
         await camp.save();
 

@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV !== 'production') {
+    require('dotenv').config(); //get data from .env file
+}
+
+
 const express = require('express');
 const app = express();
 const ExpressError = require('./utils/ExpressError');
@@ -9,6 +14,7 @@ const flash = require('connect-flash');
 const User = require('./model/user');
 const passport = require('passport');//allow us to use multiple way to login
 const LocalStrategy = require('passport-local');
+
 
 const userRoutes = require('./routes/user');
 const campgroundRoutes =  require('./routes/campgrounds');

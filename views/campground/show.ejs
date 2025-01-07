@@ -5,7 +5,26 @@
         <div class="col-md-6">
             <div class="card">
                 <!-- Centered Image -->
-                <img src="<%= camp.img %>" class="card-img-top img-fluid mx-auto d-block" alt="Camp Image">
+                <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                            <% camp.imgs.forEach((img, index) => { %>
+                                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                    <img src="<%= img.url %>" class="d-block w-100" alt="...">
+                                </div>
+                            <% }) %>     
+                    </div>
+                    <% if(camp.imgs.length > 1){ %>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                    <% } %>
+
+                  </div>
 
                 <!-- Card Body -->
                 <div class="card-body">
