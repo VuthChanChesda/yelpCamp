@@ -1,9 +1,11 @@
 <% layout('layouts/boilerplate')  %>
 
-    <div class="row my-5">
+<link rel="stylesheet" href="/css/spinner.css">
+
+    <div class="row my-5" id="content">
         <div class="col-6 offset-3">
         <h1 class="text-center mt-3">create new camp</h1>
-            <form action="/campground" method="post" class="validated-form" novalidate enctype="multipart/form-data">
+            <form action="/campground" method="post" class="validated-form" novalidate enctype="multipart/form-data" id="campForm">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" aria-describedby="title" name="campground[title]" required>
@@ -51,6 +53,9 @@
             </div>
         </div>
     </div>
+
+<%- include('../partials/spinner')%>
+<script src="/javascript/showSpinner.js"></script>
 
 
 

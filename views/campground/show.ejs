@@ -1,9 +1,11 @@
 <% layout('layouts/boilerplate')  %>
 <link rel="stylesheet" href="/css/star.css">
+<link rel="stylesheet" href="/css/spinner.css">
 
-<div class="row my-3">
+<div class="row my-3" id="content">
         <div class="col-md-6">
             <div class="card">
+                <div id="map" style="width: 100%; height: 300px;"></div>
                 <!-- Centered Image -->
                 <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -42,7 +44,7 @@
                 <% if(currentUser && camp.author.equals(currentUser._id)){ %>
                 <div class="card-body">
                         <a href="/campground/<%= camp.id %>/edit" class="btn btn-primary">Edit Camp</a>
-                        <form action="/campground/<%= camp.id %>?_method=DELETE" method="post" class="d-inline">
+                        <form action="/campground/<%= camp.id %>?_method=DELETE" method="post" class="d-inline" id="campForm">
                             <button class="btn btn-danger mx-3">DELETE</button>
                         </form>
                 </div>
@@ -103,6 +105,21 @@
 
     </div>
 </div>
+<%- include('../partials/spinner')%>
+
+<script>
+    const maptilerApiKey = '<%= process.env.MAPTILER_API_KEY %>';
+    const camp = {
+        geometry: {
+            coordinates: [<%- JSON.stringify(camp.geometry.coordinates[0]) %>, <%- JSON.stringify(camp.geometry.coordinates[1]) %>]
+        },
+        title: '<%= camp.title %>',
+        location: '<%= camp.location %>'
+    };
+</script>
+<script src="/javascript/showPageMap.js"></script>
+<script src="/javascript/showSpinner.js"></script>
+
 
 
 

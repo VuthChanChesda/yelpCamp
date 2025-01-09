@@ -1,6 +1,8 @@
 const CampGround = require("../model/campGroundSchema");
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2;
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index =  async (req, res) => {
     // Fetch all campgrounds sorted by newest first
@@ -13,13 +15,16 @@ module.exports.renderNewForm = async (req , res) => {
 };
 
 module.exports.createCamp = async (req , res) => {
-    
+
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
     const camp = new CampGround(req.body.campground);
+    camp.geometry = geoData.features[0].geometry;
     camp.imgs = req.files.map(f => ({url: f.path , filename: f.filename})); //take path and filename from files then make a new object for each one
     camp.author = req.user._id; //add author to camp(we get user._id from passport when we login) it the same as user._id in our db
     await camp.save();
     req.flash('success', 'successfully created!');
     res.redirect(`/campground/${camp.id}`);
+
 };
 
 module.exports.renderShowCamp = async (req , res,next) => {
@@ -52,8 +57,9 @@ module.exports.renderEditCamp = async (req , res) => {
 
 module.exports.updateCamp = async(req , res) =>{
     let {id} = req.params;
-    console.log(req.body);
     const camp = await CampGround.findByIdAndUpdate(id , {...req.body.campground} , {new: true} );
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    camp.geometry = geoData.features[0].geometry;
     const imgs = req.files.map(f => ({url: f.path , filename: f.filename})); //take path and filename from files then make a new object for each one
     camp.imgs.push(...imgs); //don't push an array to imgs array but push each element of the array to it
     await camp.save(); // Save the camp object first to ensure the database is updated
@@ -63,13 +69,16 @@ module.exports.updateCamp = async(req , res) =>{
         }
         await camp.updateOne({$pull: {imgs: {filename: {$in: req.body.deleteImages}}}});
     }
-    console.log(camp);
     req.flash('success', 'successfully updated!');
     res.redirect(`/campground/${camp.id}`);
 };
 
 module.exports.deleteCamp = async (req , res) => {
     let {id} = req.params;
+    const campground = await CampGround.findById(id);
+    for(let img of campground.imgs){
+        await cloudinary.uploader.destroy(img.filename);
+    }
     const camp = await CampGround.findByIdAndDelete(id);
     req.flash('success', 'successfully deleted!');
     res.redirect('/campground');
