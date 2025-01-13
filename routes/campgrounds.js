@@ -9,7 +9,7 @@ const upload = multer({storage});
 
 
 router.route('/')
-    .get(catchAsync(campgrounds.index)) //show all camp
+    .get(isLogined, catchAsync(campgrounds.index)) //show all camp
     .post(isLogined,upload.array('imgs'),validateCampground,catchAsync(campgrounds.createCamp )); // make new camp
 
 

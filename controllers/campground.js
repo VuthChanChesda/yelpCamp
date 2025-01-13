@@ -6,7 +6,7 @@ maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index =  async (req, res) => {
     // Fetch all campgrounds sorted by newest first
-    const camp = await CampGround.find({}).sort({ _id: -1 });
+    const camp = await CampGround.find({}).sort({ _id: -1 }).populate('author');
     res.render('campground/index', { camp });
 };
 

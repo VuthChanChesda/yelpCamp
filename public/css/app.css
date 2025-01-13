@@ -1,0 +1,109 @@
+body{
+    background-color: #FEFCF8;
+}
+
+p{
+    font-size: 0.7rem;
+    font-family: "Merriweather", serif;
+    font-weight: 200;
+}
+
+h1{
+    font-size: 1.7rem;
+    font-family: "worksan", serif;
+    font-weight: 500;
+}
+
+.form-btn {
+    font-size: 0.8rem !important;
+    font-family: "Merriweather", serif;
+    font-weight: 200;
+    color: white !important;
+    background-color: black !important;
+}
+
+#google-btn button{
+    background-color: white !important;
+    color: black !important; 
+    border: 1px solid black !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#google-btn img {
+    margin-right: 10px;
+}
+
+input{
+    font-size: 0.9rem !important;
+    font-family: "Merriweather", serif;
+    font-weight: 100;
+}
+
+/* Style the placeholder text */
+input::placeholder {
+    font-size: 0.7rem; /* Smaller font size for placeholder */
+    font-family: "Merriweather", serif; /* Same font family as input */
+    font-weight: 100; /* Same font weight as input */
+}
+
+#form-card{
+    border-radius: 2% !important ;
+}
+
+#cart-author{
+    /* font-size: 0.6rem;
+    background-image: linear-gradient(to right, #ea7580, #f48474, #f89569, #f7a962, #f0bd60);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
+    font-size: 1rem;
+    /* text-transform: uppercase; */
+    font-family: "worksan", serif; /* Same font family as input */
+    margin-bottom: 0;
+    color: black;
+
+}
+
+#form-card-index{
+    border: 0.3px lightgray solid !important;
+    overflow: hidden; /* Ensure content doesn't overflow the card */
+
+}
+#form-card-index a{
+    color: black !important;
+    border-bottom: 1px solid black;
+    padding: 0 0 5px 0;
+    text-decoration: none;
+}
+
+#form-card-index img{
+
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%; /* Ensure the image takes the full width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the entire area */
+    display: block; /* Remove any inline spacing */
+
+}
+
+#cluster-map{
+    width: 100%;
+    height: 500px;
+}
+
+#map{
+    width: 100%;
+    height: 300px;
+}
+
+#strength-indicator{
+    font-size: 0.7rem;
+    font-family: "Merriweather", serif;
+    font-weight: 100;
+    color: red;
+}
+
+

@@ -1,0 +1,57 @@
+h1, h2, h3, h4, h5, h6{
+    font-family: "Merriweather", serif;
+    font-weight: 500;
+}
+
+p{
+    font-family: "worksan", serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.reviews-box{
+    overflow-y: auto;
+    height: 300px;
+    border: 1px solid black;
+
+}
+
+
+.reviews{
+    margin-top: 20px;
+    border: 2px solid #EDF85F;
+    padding: 10px;
+    border-radius: 1%;
+}
+
+.card{
+    border: 1px solid black;
+    margin-top: 5px;
+    padding: 0 !important;
+    background-color: transparent !important;
+}
+
+#review-form{
+    border: 1px solid lightgray !important;
+}
+#review-form button{
+    background-color: #EDF85F !important;
+}
+.form-btn {
+    background-color: #EDF85F !important; ;
+    color: black !important; ;
+    border: 1px solid white !important;
+    padding: 10px 25px 10px 25px;
+    border-radius: 5%;
+}
+#price{
+ color: #8d9453;
+}
+
+textarea{
+    resize: none;
+    border: none !important;
+    border-bottom: 1px solid lightgray !important;
+    background-color: transparent !important;
+}
+

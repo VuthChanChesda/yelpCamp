@@ -72,6 +72,10 @@ app.use('/campground', campgroundRoutes); // prefix campground
 app.use('/campground/:id/reviews', reviewsRoutes); // prefix campground
 app.use('/',userRoutes);
 
+app.get('/' , (req, res) => {
+    res.render('home');
+}); //home page
+
 
 app.all('*' ,(req, res, next)=> {
     next(new ExpressError('page not found', 404)); // hit the error handling next

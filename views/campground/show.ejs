@@ -1,11 +1,14 @@
 <% layout('layouts/boilerplate')  %>
 <link rel="stylesheet" href="/css/star.css">
 <link rel="stylesheet" href="/css/spinner.css">
+<link rel="stylesheet" href="/css/showpage.css">
+<link rel="icon" href="images/scenery-modified.png" type="image/png">
+
 
 <div class="row my-3" id="content">
         <div class="col-md-6">
             <div class="card">
-                <div id="map" style="width: 100%; height: 300px;"></div>
+                
                 <!-- Centered Image -->
                 <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -27,18 +30,18 @@
                     <% } %>
 
                   </div>
-
+                  <div id="map"></div>
                 <!-- Card Body -->
                 <div class="card-body">
                     <h5 class="card-title"><%= camp.title %></h5>
-                    <p class="card-text"><%= camp.description %></p>
+                    <p class="card-text fs-6 text-muted"><%= camp.description %></p>
                 </div>
 
                 <!-- Full-Width List Items -->
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item w-100"><%= camp.location %></li>
                     <li class="list-group-item w-100  fw-bold">submited by <%= camp.author.username %></li>
-                    <li class="list-group-item w-100">Price: <%= camp.price %>$</li>
+                    <li class="list-group-item w-100">Price: <span id="price"><%= camp.price %>$</span></li>
 
                 </ul>
                 <% if(currentUser && camp.author.equals(currentUser._id)){ %>
@@ -52,12 +55,43 @@
                 
             </div>
         </div>
+
+
     <div class="col-md-6">
-        <% if(currentUser){ %>
+    <div class="reviews">
+     <h2>Reviews</h2>   
+     <hr>
+    <div class="reviews-box">       
         <div>
+            <% if(camp.reviews && camp.reviews.length > 0){ %>
+            <% for(let r of camp.reviews){%>
+                <div class="d-flex mb-3 p-3">
+                    <div class="">
+                        <p class="fw-bolder fs-5"><%= r.author.username %></p>
+                        <p class="starability-result" data-rating="<%= r.rating  %>">
+                            Rated: <%= r.rating %> stars
+                        </p>
+                        <p class=""> <%= r.body%></p>
+                    </div>
+                    <% if(currentUser && r.author.equals(currentUser._id)){%>
+                    <form action="/campground/<%=camp.id%>/reviews/<%=r.id%>?_method=DELETE" method="post" class="d-inline ms-auto my-auto">
+                        <button class="btn btn-danger m-2">Delete</button>
+                    </form>
+                    <%}%>
+                    
+                </div>
+            <%}%>
+            <%}else{%>
+                <p class="text-center fs-4 fw-bolder mt-5">no reviews yet</p>
+            <%}%>
+
+        </div>
+    </div>
+    <% if(currentUser){ %>
+        <div class="p-3" id="review-form ">
             <h3>leave a review</h3>
             <form action="/campground/<%= camp.id %>/reviews" method="post" class="validated-form" novalidate>
-                <div class="mb-3">
+                <div>
                 <fieldset class="starability-basic">
                     <input type="radio" id="no-rate" class="input-no-rate" name="reviews[rating]" value="1" checked aria-label="No rating." />
                     <input type="radio" id="first-rate1" name="reviews[rating]" value="1" />
@@ -74,36 +108,17 @@
                 </div>
                 <div class="mb-3">
                     <label for="body">Review</label>
-                    <textarea cols="30" rows="5" id="body" name="reviews[body]" class="form-control" required></textarea>
+                    <textarea cols="30" rows="1" id="body" name="reviews[body]" class="form-control" required></textarea>
                 </div>
 
-                <button class="btn btn-success mb-3">submit </button>
+                <button class="mb-3 form-btn">submit</button>
             </form>
         </div>
         <%}%>
-        
-        <div>
-            <% for(let r of camp.reviews){%>
-                <div class="card mb-3  shadow">
-                    <div class="card-body">
-                        <p class="card-title text-info"><%= r.author.username %></p>
-                        <p class="starability-result" data-rating="<%= r.rating  %>">
-                            Rated: <%= r.rating %> stars
-                        </p>
-                        <p class="card-text"> <%= r.body%></p>
-                    </div>
-                    <% if(currentUser && r.author.equals(currentUser._id)){%>
-                    <form action="/campground/<%=camp.id%>/reviews/<%=r.id%>?_method=DELETE" method="post">
-                        <button class="btn btn-danger m-2">Delete</button>
-                    </form>
-                    <%}%>
-                    
-                </div>
-            <%}%>
-        </div>
-        
-
+ 
     </div>
+ </div>
+
 </div>
 <%- include('../partials/spinner')%>
 

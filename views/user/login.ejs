@@ -1,22 +1,50 @@
 <% layout('layouts/boilerplate')  %>
 
-<div class="row my-5">
-    <div class="col-6 offset-3">
-        <h1 class="text-center mt-3">Login</h1>
-        <form action="/login" method="post" class="validated-form" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" aria-describedby="title" name="username" required>
-                <div class="valid-feedback">look good!</div>
-            </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" aria-describedby="password" name="password" required>
-                <div class="valid-feedback">look good!</div>
-            </div>
+<div class="container d-flex justify-content-center align-items-center mt-3">
 
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
+    <div class="row w-100">
+        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+            <div class="card shadow" id="form-card">
+               
+                <div class="card-body">
+
+                    <h2 class="card-title fw-bold">Welcome back</h2>
+                    <p class="card-text text-muted mb-4">Welcome back! please enter your details</p>
+                    <form action="/login" method="post" class="validated-form" novalidate>
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-bold">Username</label>
+                            <input type="text" class="form-control fw-light" id="username" aria-describedby="title" name="username" placeholder="enter your username" autofocus required>
+                            <div class="valid-feedback">look good!</div>
+                        </div>
+            
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold">Password</label>
+                            <input type="password" class="form-control fw-light" id="password" aria-describedby="password" name="password" placeholder="enter your password" required>
+                            <div class="valid-feedback">look good!</div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mb-3">
+                            <button type="submit" class="btn w-100 form-btn">Login</button>
+                        </div>
+
+                        <div class="d-flex justify-content-center" id="google-btn">
+                            <button type="submit" class="btn w-100">
+                                <img src="https://i.pinimg.com/736x/c8/b8/12/c8b8129127bada9fa699aeba388b3b2b.jpg" alt="Google Logo" width="20" height="20">
+                                Sign in with Google
+                            </button>
+                        </div>
+
+                        <div>
+                            <p class="text-center mt-3">Don't have an account? <a href="/register">Register</a></p>
+                        </div>
+                   
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
     </div>
+
 </div>

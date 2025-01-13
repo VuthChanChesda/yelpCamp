@@ -3,6 +3,8 @@ const {campgroundSchema} = require('./schemas');
 const CampGround = require("./model/campGroundSchema");
 const {reviewSchema} = require('./schemas');
 const Review = require('./model/reviews');
+const {passwordStrength} = require('check-password-strength');
+
 
 module.exports.isLogined = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -62,3 +64,16 @@ module.exports.validateReviews = (req, res, next) => {
         next()
     }
 }
+
+// Password strength validation middleware
+module.exports.validatePasswordStrength = (req, res, next) => {
+    const { password } = req.body;
+    const strength = passwordStrength(password);
+    
+    if (strength.id < 2) { // Requiring at least 'medium' strength
+        req.flash('error', 'Password is too weak. Please use a stronger password.');
+        return res.redirect('/register');
+    }
+    next();
+  };
+
