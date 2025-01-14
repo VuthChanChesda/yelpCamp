@@ -6,9 +6,10 @@ const Review = require('./model/reviews');
 const {passwordStrength} = require('check-password-strength');
 
 
+
 module.exports.isLogined = (req, res, next) => {
-    if (!req.isAuthenticated()) {
-        req.session.returnTo = req.originalUrl; // add this line
+    if (!req.isAuthenticated() || !req.user) {
+        req.session.returnTo = req.originalUrl; //store the url that user want to go to
         req.flash('error', 'You must be signed in first!');
         return res.redirect('/login');
     }

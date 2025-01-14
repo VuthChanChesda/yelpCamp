@@ -20,6 +20,10 @@ const campgroundRoutes =  require('./routes/campgrounds');
 const reviewsRoutes =  require('./routes/reviews');
 
 const mongoose = require('mongoose');
+const googleOauth = require('./googleOauth'); //googleOauth function
+
+
+
 mongoose.connect('mongodb://127.0.0.1:27017/yelpCamp');
 const db = mongoose.connection;
 db.on('error' , console.error.bind(console , 'connection error:'));
@@ -50,11 +54,22 @@ app.use(sessions(sessionCofig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-//tell passport to use LocalStrategy and authenticate on our user model
+passport.use(new LocalStrategy(User.authenticate()));//tell passport to use LocalStrategy and authenticate on our user model
+googleOauth(passport); //tell passport to use googleOauth
 
-passport.serializeUser(User.serializeUser()); // tell passport how to store user in session
-passport.deserializeUser(User.deserializeUser()); //how to get user out of the session
+
+passport.serializeUser((user, done) => { // tell passport how to store user in session
+    done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => { //how to get user out of the session
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
+});
 
 
 app.use((req,res,next) => {
