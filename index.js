@@ -2,7 +2,6 @@ if(process.env.NODE_ENV !== 'production') {
     require('dotenv').config(); //get data from .env file
 }
 
-
 const express = require('express');
 const app = express();
 const ExpressError = require('./utils/ExpressError');
