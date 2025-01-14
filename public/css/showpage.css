@@ -11,15 +11,15 @@ p{
 
 .reviews-box{
     overflow-y: auto;
-    height: 300px;
-    border: 1px solid black;
+    height: 250px;
+    border: 1px solid lightgray;
 
 }
 
 
 .reviews{
     margin-top: 20px;
-    border: 2px solid #EDF85F;
+    border: 2px solid lightgray;
     padding: 10px;
     border-radius: 1%;
 }
