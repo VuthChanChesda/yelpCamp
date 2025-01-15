@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
-const { flat } = require('../seeds/city');
 
 const UserSchema = new Schema({
     email: {
@@ -11,7 +10,9 @@ const UserSchema = new Schema({
     googleId: {
         type: String,
         unique: true,
-        required: false 
+        required: false ,
+        sparse: true // Make the googleId field sparse
+
     },
     name: {
         type: String,

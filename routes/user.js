@@ -20,7 +20,8 @@ router.get('/auth/google', passport.authenticate('google', {
   scope: ['profile', 'email'],
 })); // use google strategy to authenticate user with google
 
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }), (req, res) => {
+
+router.get('/campground/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }), (req, res) => {
   if (req.session.returnTo) {
       const redirectUrl = req.session.returnTo;
       delete req.session.returnTo;
@@ -33,6 +34,8 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 router.get('/terms', (req, res) => {
   res.render('user/TermsOfService');
 });
+
+
 
 router.get('/privacy', (req, res) => {
   res.render('user/PrivacyPolicy');
