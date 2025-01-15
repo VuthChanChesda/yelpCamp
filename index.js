@@ -25,7 +25,8 @@ const mongoose = require('mongoose');
 const googleOauth = require('./googleOauth'); //googleOauth function
 
 // process.env.DB_URL 
-const dbUrl = 'mongodb://127.0.0.1:27017/yelpCamp';
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelpCamp';
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
 mongoose.connect(dbUrl);
 const db = mongoose.connection;
@@ -48,7 +49,7 @@ const store = MongoStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: 'thisshouldbeabettersecret!'
+        secret
     }
 });
 
@@ -60,7 +61,7 @@ store.on("error", function(e){
 const sessionCofig = {
     store,
     name: "kokoma", // Name of the cookie
-    secret: "testSecret", // Secret to sign cookies (use env var in production)
+    secret,
     resave: false, // Prevents saving unchanged sessions
     saveUninitialized: true, // Saves new sessions even if not modified
     cookie: {
