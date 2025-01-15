@@ -188,6 +188,7 @@ app.use((err, req, res, next) => {
 });// if something goes wrong, it will make it way here and error that we throw also get here
 
 
+const port = process.env.PORT || 3000;
 app.listen(3000, () => {
     console.log('Serving on port 3000');
 });
