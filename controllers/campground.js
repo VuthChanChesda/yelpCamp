@@ -47,6 +47,7 @@ module.exports.renderShowCamp = async (req , res,next) => {
 
 module.exports.renderEditCamp = async (req , res) => {  
     const {id} = req.params;
+
     const camp = await CampGround.findById(id);
     if(!camp){
         req.flash('error','No camp found.');

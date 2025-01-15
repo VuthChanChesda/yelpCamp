@@ -16,6 +16,10 @@ const UserSchema = new Schema({
     name: {
         type: String,
         required: false
+    },
+    agreeToTerms: {
+        type: Boolean,
+        required: true
     }
 
 });

@@ -17,9 +17,9 @@
                         <p class="card-text" id="cart-author">by <%= c.author.username  %></p>
                         <hr>
                         <% if(c.imgs.length){ %>
-                            <img src="<%= c.imgs[0].url %>" class="d-block w-100 img-fluid" alt=""> 
+                            <img  crossorigin="anonymous"   src="<%= c.imgs[0].url %>" class="d-block w-100 img-fluid" alt="" > 
                             <% }else{ %> 
-                            <img src="https://media.istockphoto.com/id/1354776457/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=w3OW0wX3LyiFRuDHo9A32Q0IUMtD4yjXEvQlqyYk9O4=" class="d-block w-100" alt="">
+                            <img  crossorigin="anonymous"  src="https://media.istockphoto.com/id/1354776457/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=w3OW0wX3LyiFRuDHo9A32Q0IUMtD4yjXEvQlqyYk9O4=" class="d-block w-100" alt=""  >
                             <% } %> 
                         <h2 class="card-title fw-bold mt-2"><%= c.title %></h2>
                         <p class="card-text text-muted mb-4"><%= c.description%></p>

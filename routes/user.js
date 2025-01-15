@@ -29,6 +29,14 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
       res.redirect('/campground');  //after authenticate user with google succesfully, redirect to campground page
   }
 });
+
+router.get('/terms', (req, res) => {
+  res.render('user/TermsOfService');
+});
+
+router.get('/privacy', (req, res) => {
+  res.render('user/PrivacyPolicy');
+});
   
 router.get('/logout', user.logout);
 

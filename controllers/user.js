@@ -10,8 +10,12 @@ module.exports.renderLogin = (req,res)=>{
 
 module.exports.register = async(req,res)=>{
     try{
-        const {username,email, password} = req.body;
-        const user = new User({username,email});
+        const { username, email, password, agree } = req.body;
+        if (!agree) {
+            req.flash('error', 'You must agree to the Terms of Service and Privacy Policy.');
+            return res.redirect('/register');
+        }
+        const user = new User({ username, email, agreeToTerms: true });
         const registerUser = await User.register(user,password); // register new user and hash password(add salt andy everything)
         req.login(registerUser, err => {
             if(err) return next(err);

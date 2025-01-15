@@ -3,13 +3,11 @@ body{
 }
 
 p{
-    font-size: 0.7rem;
     font-family: "Merriweather", serif;
     font-weight: 200;
 }
 
-h1{
-    font-size: 1.7rem;
+h1, h2, h3, h4, h5, h6{
     font-family: "worksan", serif;
     font-weight: 500;
 }
@@ -46,6 +44,15 @@ input::placeholder {
     font-size: 0.7rem; /* Smaller font size for placeholder */
     font-family: "Merriweather", serif; /* Same font family as input */
     font-weight: 100; /* Same font weight as input */
+}
+
+#form-card-login-register-body p {
+    font-size: 0.8rem !important;
+    font-family: "Merriweather", serif;
+    font-weight: 100;
+}
+#form-card-login-register-body a{
+    color: black;
 }
 
 #form-card{
@@ -104,6 +111,13 @@ input::placeholder {
     font-family: "Merriweather", serif;
     font-weight: 100;
     color: red;
+}
+
+#google-logo{
+    width: 25px;
+    height: 25px;
+    margin-bottom: 3px;
+    display: inline-block;
 }
 
 

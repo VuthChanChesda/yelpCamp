@@ -13,6 +13,8 @@ const flash = require('connect-flash');
 const User = require('./model/user');
 const passport = require('passport');//allow us to use multiple way to login
 const LocalStrategy = require('passport-local');
+const helmet = require('helmet');
+const MongoStore = require('connect-mongo'); // for storing session in mongoDB
 
 
 const userRoutes = require('./routes/user');
@@ -22,9 +24,10 @@ const reviewsRoutes =  require('./routes/reviews');
 const mongoose = require('mongoose');
 const googleOauth = require('./googleOauth'); //googleOauth function
 
+// process.env.DB_URL 
+const dbUrl = 'mongodb://127.0.0.1:27017/yelpCamp';
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/yelpCamp');
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on('error' , console.error.bind(console , 'connection error:'));
 db.once('open' , () => {
@@ -39,7 +42,24 @@ app.set('views' , path.join(__dirname , 'views'));
 app.use(methodsOverride('_method'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname , 'public')));
+
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
+
+store.on("error", function(e){
+    console.log("Session Store Error", e);
+});
+
+
 const sessionCofig = {
+    store,
+    name: "kokoma", // Name of the cookie
     secret: "testSecret", // Secret to sign cookies (use env var in production)
     resave: false, // Prevents saving unchanged sessions
     saveUninitialized: true, // Saves new sessions even if not modified
@@ -56,6 +76,67 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));//tell passport to use LocalStrategy and authenticate on our user model
 googleOauth(passport); //tell passport to use googleOauth
+
+
+app.use(helmet());
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdn.maptiler.com/", 
+];
+
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdn.maptiler.com/",
+];
+
+const connectSrcUrls = [
+    "https://api.maptiler.com/", 
+];
+
+const fontSrcUrls = ["https://fonts.gstatic.com/"];
+
+app.use(
+
+    helmet.contentSecurityPolicy({
+
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'self'", "'unsafe-inline'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/dt6kuwk1c/",
+                "https://images.unsplash.com/",
+                "https://cdn.maptiler.com/",
+                "https://i.pinimg.com/",
+                "https://i.picsum.photos",
+                "https://picsum.photos/",
+                "https://fastly.picsum.photos",
+                "https://api.maptiler.com/"
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+        // crossOriginEmbedderPolicy: false,  // Add this if needed
+        // crossOriginResourcePolicy: { policy: "cross-origin" }  // Add this
+
+    }) //set up content security policy
+
+);
+
+
 
 
 passport.serializeUser((user, done) => { // tell passport how to store user in session

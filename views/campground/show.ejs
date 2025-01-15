@@ -13,7 +13,7 @@
                     <div class="carousel-inner">
                             <% camp.imgs.forEach((img, index) => { %>
                                 <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                                    <img src="<%= img.url %>" class="d-block w-100" alt="...">
+                                    <img src="<%= img.url %>" class="d-block w-100" alt="" crossorigin="anonymous" >
                                 </div>
                             <% }) %>     
                     </div>

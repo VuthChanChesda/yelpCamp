@@ -1,13 +1,13 @@
 <% layout('layouts/boilerplate')  %>
 
 
-<div class="container d-flex justify-content-center align-items-center mb-3">
+<div class="container d-flex justify-content-center align-items-center mb-4 mt-5">
 
     <div class="row w-100">
         <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
             <div class="card shadow" id="form-card">
                
-                <div class="card-body">
+                <div class="card-body" id="form-card-login-register-body">
 
                     <h2 class="card-title fw-bold">Welcome</h2>
                     <p class="card-text text-muted mb-4">Welcome back! please enter your details</p>
@@ -39,9 +39,16 @@
 
                         <div class="d-flex justify-content-center" id="google-btn">
                             <a href="/auth/google" type="submit" class="btn w-100 border-dark">
-                                <img src="https://i.pinimg.com/736x/c8/b8/12/c8b8129127bada9fa699aeba388b3b2b.jpg" alt="Google Logo" width="20" height="20">
+                                <img  src="/images/googleIcon.png" alt="Google Logo" id="google-logo">
                                 continue with Google
                             </a>
+                        </div>
+
+                        <div class="form-group form-check mt-3">
+                            <input type="checkbox" class="form-check-input" id="agree" name="agree" required>
+                            <label class="form-check-label" for="agree">
+                                I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+                            </label>
                         </div>
 
                         <div>
