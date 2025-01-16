@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new Schema({
+    
     email: {
         type: String,
         unique: true,
@@ -11,6 +12,7 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
+
     agreeToTerms: {
         type: Boolean,
         required: true

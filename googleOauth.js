@@ -13,6 +13,7 @@ module.exports = function(passport) {
 
     async (accessToken, refreshToken, profile, done) => {
       try {
+        const email = profile.emails[0].value;
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
