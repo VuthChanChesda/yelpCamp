@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { use } = require('passport');
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
@@ -16,6 +17,10 @@ const UserSchema = new Schema({
     agreeToTerms: {
         type: Boolean,
         required: true
+    },
+    username: {
+        type: String,
+        required: false
     }
 
 });
