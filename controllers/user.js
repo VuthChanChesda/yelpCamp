@@ -56,7 +56,7 @@ module.exports.createUserWithGoogle = async(req,res)=>{
             req.flash('error', 'You must agree to the Terms of Service and Privacy Policy.');
             return res.redirect('/auth/google/terms');
         }
-        const tempUser = req.user;
+        const tempUser = req.session.tempUser;
         const user = new User({
             email: tempUser.email,
             name: tempUser.name,
@@ -66,7 +66,7 @@ module.exports.createUserWithGoogle = async(req,res)=>{
         req.login(user, (err) => {
             if (err) return next(err);
             req.flash('success', 'Welcome to YelpCamp!');
-            res.redirect('/campgrounds');
+            res.redirect('/campground');
         });
     } catch (e) {
         req.flash('error', e.message);
