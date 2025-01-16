@@ -18,8 +18,9 @@ module.exports = function(passport) {
         if (existingUser) {
           return done(null, existingUser);
         }
+        const name = profile.displayName || `${profile.name.givenName} ${profile.name.familyName}` || "No Name Given";
         const newUser = new User({
-          name: profile.displayName,
+          name: name,
           email: profile.emails[0].value,
           agreeToTerms: true // google oauth user agree to terms of service and privacy policy by default
         });
