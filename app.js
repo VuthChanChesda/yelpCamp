@@ -141,7 +141,7 @@ app.use(
 
 
 passport.serializeUser((user, done) => { // tell passport how to store user in session
-    done(null, user.id);
+    done(null, user.email);
 });
 
 passport.deserializeUser(async (id, done) => { //how to get user out of the session
