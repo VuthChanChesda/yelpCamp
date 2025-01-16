@@ -49,28 +49,3 @@ module.exports.logout = (req,res)=>{
     
 };
 
-module.exports.createUserWithGoogle = async(req,res)=>{
-    try {
-        const { agree } = req.body;
-        if (!agree) {
-            req.flash('error', 'You must agree to the Terms of Service and Privacy Policy.');
-            return res.redirect('/auth/google/terms');
-        }
-        const tempUser = req.session.tempUser;
-        const user = new User({
-            email: tempUser.email,
-            name: tempUser.name,
-            agreeToTerms: true
-        });
-        await user.save();
-        req.login(user, (err) => {
-            if (err) return next(err);
-            req.flash('success', 'Welcome to YelpCamp!');
-            res.redirect('/campground');
-        });
-    } catch (e) {
-        req.flash('error', e.message);
-        res.redirect('/auth/google/terms');
-    }
-};
-

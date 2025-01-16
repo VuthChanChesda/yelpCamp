@@ -12,24 +12,23 @@ module.exports = function(passport) {
     },
 
     async (accessToken, refreshToken, profile, done) => {
-      try {
-        const email = profile.emails[0].value;
-        const existingUser = await User.findOne({ email });
 
+      try {
+        const existingUser = await userModel.findOne({ email: profile.emails[0].value });
         if (existingUser) {
-          // Log in the existing user
           return done(null, existingUser);
         }
-  
-        // Store user information temporarily in the session
-        const tempUser = {
+        const newUser = new User({
+          name: profile.displayName,
           email: profile.emails[0].value,
-          name: profile.displayName
-        };
-        return done(null, tempUser);
+          agreeToTerms: true // google oauth user agree to terms of service and privacy policy by default
+        });
+        await newUser.save();
+        done(null, newUser);
       } catch (error) {
-        return done(error, false);
+        done(error, null);
       }
+
     }
   ));
 
