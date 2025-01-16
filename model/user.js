@@ -7,12 +7,6 @@ const UserSchema = new Schema({
         type: String,
         unique: true,
         required: true },
-    googleId: {
-        type: String,
-        unique: false,
-        required: false ,
-
-    },
     name: {
         type: String,
         required: false

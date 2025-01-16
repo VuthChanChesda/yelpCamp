@@ -20,7 +20,7 @@ router.get('/auth/google', passport.authenticate('google', {
   scope: ['profile', 'email'],
 })); // use google strategy to authenticate user with google          
 
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }), (req, res) => {
+router.get('/campground/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }), (req, res) => {
     // Redirect to terms agreement page after successful Google authentication
     res.redirect('/auth/google/terms');
 });
@@ -47,7 +47,7 @@ router.post('/auth/google/terms', catchAsync(user.createUserWithGoogle));
 // });
 
 router.get('/terms', (req, res) => {
-  res.render('user/TermsOfService');
+  res.render('user/TermsofService');
 });
 
 

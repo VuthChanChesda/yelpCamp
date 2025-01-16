@@ -59,7 +59,6 @@ module.exports.createUserWithGoogle = async(req,res)=>{
         const tempUser = req.user;
         const user = new User({
             email: tempUser.email,
-            googleId: tempUser.googleId,
             name: tempUser.name,
             agreeToTerms: true
         });

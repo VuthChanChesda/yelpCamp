@@ -13,7 +13,8 @@ module.exports = function(passport) {
 
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const existingUser = await User.findOne({ googleId: profile.id });
+        const existingUser = await User.findOne({ email });
+
         if (existingUser) {
           // Log in the existing user
           return done(null, existingUser);
@@ -21,7 +22,6 @@ module.exports = function(passport) {
   
         // Store user information temporarily in the session
         const tempUser = {
-          googleId: profile.id,
           email: profile.emails[0].value,
           name: profile.displayName
         };
