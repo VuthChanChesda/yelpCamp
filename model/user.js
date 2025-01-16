@@ -9,9 +9,8 @@ const UserSchema = new Schema({
         required: true },
     googleId: {
         type: String,
-        unique: true,
+        unique: false,
         required: false ,
-        sparse: true // Make the googleId field sparse
 
     },
     name: {

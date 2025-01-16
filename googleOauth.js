@@ -8,32 +8,27 @@ module.exports = function(passport) {
   passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: "https://yelpcamp-qztl.onrender.com/campground/auth/google/callback",
     },
 
     async (accessToken, refreshToken, profile, done) => {
-
       try {
-        const existingUser = await User.findOne({ email: profile.emails[0].value });
+        const existingUser = await User.findOne({ googleId: profile.id });
         if (existingUser) {
-             // Log in the existing user
+          // Log in the existing user
           return done(null, existingUser);
         }
-
-         // Register a new user
-        const newUser = new User({
-            googleId: profile.id,
-            name: profile.emails[0].value.split('@')[0], // Save the user's display name
-            email: profile.emails[0].value,
-            username: profile.displayName,// Generate a unique username based on email
-        });
-        
-        await newUser.save();
-        done(null, newUser);
+  
+        // Store user information temporarily in the session
+        const tempUser = {
+          googleId: profile.id,
+          email: profile.emails[0].value,
+          name: profile.displayName
+        };
+        return done(null, tempUser);
       } catch (error) {
-        done(error, null);
+        return done(error, false);
       }
-
     }
   ));
 

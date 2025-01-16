@@ -1,0 +1,14 @@
+<% layout('layouts/boilerplate')  %>
+
+    <div class="container my-5">
+        <h1 class="text-center">Agree to Terms</h1>
+        <form action="/auth/google/terms" method="POST">
+            <div class="form-group form-check mt-3">
+                <input type="checkbox" class="form-check-input" id="agree" name="agree" required>
+                <label class="form-check-label" for="agree">
+                    I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Continue</button>
+        </form>
+    </div>
